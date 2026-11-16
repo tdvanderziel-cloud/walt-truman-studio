@@ -1,6 +1,10 @@
-// "npm run key -- <input.mp4> <output.webm>": remove the green screen from a
-// Walt clip and write a transparent video (VP9 + alpha) for the template.
-// Uses ffmpeg's chromakey plus a despill step so no green halo stays on the felt.
+// "npm run key -- <input.mp4> <output.webm> [--black]": make a transparent Walt
+// clip (VP9 + alpha) for the template.
+//   default:  remove a green screen (chromakey + despill). Only works when the
+//             green is flat and bright.
+//   --black:  the input already had its background removed by an AI remover
+//             and sits on pure black (e.g. Higgsfield remove_background). We turn
+//             "not black" into the alpha mask. This is the reliable route.
 
 import fs from "node:fs/promises";
 import os from "node:os";
@@ -8,7 +12,9 @@ import path from "node:path";
 import sharp from "sharp";
 import { run, tools } from "../server/tools.ts";
 
-const [input, output] = process.argv.slice(2);
+const args = process.argv.slice(2);
+const fromBlack = args.includes("--black");
+const [input, output] = args.filter((a) => !a.startsWith("--"));
 if (!input || !output) {
   console.error("Gebruik: npm run key -- <input.mp4> <output.webm>");
   process.exit(1);
@@ -16,6 +22,22 @@ if (!input || !output) {
 
 // Sample the background colour from the top-left corner of the first frame,
 // so slightly different greens from different generators all work.
+if (fromBlack) {
+  // Background is (almost) exactly 0; the darkest blazer folds start around 4.
+  const graph = [
+    "[0:v]split[c][m]",
+    "[m]format=gray,lut=y='if(gte(val,3),255,val*60)',dilation,dilation,erosion,erosion,gblur=sigma=0.7[a]",
+    "[c]format=yuv420p[cc]",
+    "[cc][a]alphamerge,format=yuva420p[v]",
+  ].join(";");
+  await run(tools.ffmpeg(), [
+    "-hide_banner", "-y", "-i", input, "-filter_complex", graph, "-map", "[v]", "-map", "0:a?",
+    "-c:v", "libvpx-vp9", "-pix_fmt", "yuva420p", "-b:v", "0", "-crf", "28", "-row-mt", "1", "-c:a", "libopus", "-b:a", "96k", output,
+  ], { timeoutMs: 15 * 60_000 });
+  console.log(`✓ ${path.basename(output)} (zwarte achtergrond -> transparant)`);
+  process.exit(0);
+}
+
 // Sample several patches along the left/right edges and pick the greenest one,
 // so lamps or props in a corner don't fool us.
 let hex = "0x32AF53";
