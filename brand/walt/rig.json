@@ -1,0 +1,72 @@
+{
+  "_note": "Rig for the 'digital puppet' (route A). Coordinates are pixels in the source image. Rebuild the assets with: npm run build:walt",
+  "front": {
+    "source": "brand/walt-reference-front.png",
+    "key": {
+      "green": [
+        50,
+        175,
+        83
+      ],
+      "tolerance": 60,
+      "softness": 40
+    },
+    "mouthLine": [
+      [
+        430,
+        930
+      ],
+      [
+        470,
+        945
+      ],
+      [
+        520,
+        959
+      ],
+      [
+        580,
+        969
+      ],
+      [
+        650,
+        974
+      ],
+      [
+        720,
+        973
+      ],
+      [
+        790,
+        967
+      ],
+      [
+        850,
+        955
+      ],
+      [
+        900,
+        940
+      ],
+      [
+        935,
+        923
+      ]
+    ],
+    "jaw": {
+      "xMin": 400,
+      "xMax": 975,
+      "chinY": 1100,
+      "fadeEndY": 1185
+    },
+    "levels": [
+      0,
+      16,
+      34,
+      56
+    ],
+    "crop": {
+      "top": 200
+    }
+  }
+}
