@@ -5,11 +5,13 @@
   "language": "en",
   "description": "Warm, trustworthy American baritone around 40-45, slight rasp, modern and curious, with an eccentric, slightly zany delivery and dry humor. Unhurried pace with short pauses before the verdict.",
   "settings": {
-    "note": "Nog vast te leggen bij de eerste testvideo. Gebruik daarna altijd exact dezelfde waarden.",
-    "model_id": null,
-    "stability": null,
-    "similarity_boost": null,
-    "style": null,
-    "speed": null
+    "note": "Vastgelegd bij de eerste testvideo (16 nov 2026). Gebruik altijd exact deze waarden; wijzig alleen bewust en neem dan de vaste zinnen opnieuw op (npm run voice:phrases).",
+    "model_id": "eleven_multilingual_v2",
+    "stability": 0.45,
+    "similarity_boost": 0.8,
+    "style": 0.3,
+    "speed": 1.0,
+    "use_speaker_boost": true,
+    "output_format": "mp3_44100_128"
   }
 }

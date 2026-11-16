@@ -1,0 +1,12 @@
+{
+  "_note": "Walt's fixed lines. Recorded once into brand/voice/ (npm run voice:phrases) and reused in every video. Change the text here, then record again.",
+  "verdict": {
+    "Klopt": "Verdict: true. Credit where credit's due.",
+    "Mist context": "Verdict: missing context. True-ish... but that's not the whole story.",
+    "Misleidend": "Verdict: misleading. A grain of truth, wrapped in a whole lot of spin.",
+    "Onjuist": "Verdict: false. Nice try, internet.",
+    "Nog onbekend": "Verdict: unproven. For now, nobody knows. And that's okay to say."
+  },
+  "outro": "Tag us under a video you want checked. Sources in the description.",
+  "pauseBeforeVerdictSec": 0.7
+}

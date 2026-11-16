@@ -1,0 +1,14 @@
+{
+  "_note": "How Walt should pronounce tricky words. Left = text as written (captions keep this), right = what the voice reads. Add words here when the voice gets them wrong.",
+  "replacements": {
+    "Walt Truman": "Walt Truman",
+    "NASA": "NASA",
+    "ESA": "E.S.A.",
+    "WHO": "W.H.O.",
+    "RIVM": "R.I.V.M.",
+    "CBS": "C.B.S.",
+    "Scientific American": "Scientific American",
+    "COVID-19": "covid nineteen",
+    "e.g.": "for example"
+  }
+}
