@@ -18,4 +18,10 @@ Vaste bewegingsclips van Walt, klaar om over de originele video te leggen.
 npm run key -- brand/walt/clips/<naam>-black.mp4 brand/walt/clips/<naam>.webm --black
 ```
 
-4. Controleer de clip tegen het karakterblad: gezicht, haar, koperen bril, blazer, speldje, geen staven.
+4. De achtergrondverwijdering haalt het geluid weg. Zet het terug uit de originele clip (loopt precies gelijk met de mond):
+
+```bash
+ffmpeg -c:v libvpx-vp9 -i brand/walt/clips/<naam>.webm -i brand/walt/clips/<naam>-green.mp4 -map 0:v -map 1:a -c:v copy -c:a libopus -shortest brand/walt/clips/<naam>-final.webm
+```
+
+5. Controleer de clip tegen het karakterblad: gezicht, haar, koperen bril, blazer, speldje, geen staven.
