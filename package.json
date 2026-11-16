@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "test": "node --import tsx --test test/*.test.ts",
     "eval": "tsx scripts/eval-claims.ts",
-    "build:walt": "tsx scripts/build-walt.ts"
+    "build:walt": "tsx scripts/build-walt.ts",
+    "key": "tsx scripts/key-video.ts"
   },
   "engines": {
     "node": ">=20"
