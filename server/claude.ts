@@ -56,7 +56,7 @@ export function usageDetail(usage: UsageLike): string {
 }
 
 let client: Anthropic | null = null;
-function getClient(): Anthropic {
+export function getClient(): Anthropic {
   if (!process.env.ANTHROPIC_API_KEY?.trim()) {
     throw new Error("ANTHROPIC_API_KEY ontbreekt in .env. Vul hem in en start de studio opnieuw.");
   }
@@ -106,7 +106,7 @@ export async function callClaudeJson<S extends z.ZodType>(opts: {
   return { data: response.parsed_output as z.infer<S>, usage, costUsd: claudeCostUsd(usage) };
 }
 
-function friendlyApiError(err: unknown): Error {
+export function friendlyApiError(err: unknown): Error {
   if (err instanceof Anthropic.AuthenticationError) return new Error("Anthropic weigert de sleutel (401). Controleer ANTHROPIC_API_KEY in .env.");
   if (err instanceof Anthropic.PermissionDeniedError) return new Error("Anthropic: geen toegang (403). Controleer je account en sleutel.");
   if (err instanceof Anthropic.RateLimitError) return new Error("Anthropic: te veel verzoeken of tegoed op (429). Wacht even of controleer je tegoed.");

@@ -2,7 +2,7 @@
 
 Een eigen studio in de browser. Je plakt een link naar een social-media-video, de studio factcheckt de video, jij kijkt alles na, en daarna maakt de studio een korte video waarin de pop **Walt Truman** de factcheck presenteert.
 
-> **Stand van zaken:** stap 1 (invoer) en stap 2 (analyse) werken. Factcheck en nakijken komen hierna, daarna pas stem, Walt en de videotemplate. Zie [`docs/plan.md`](docs/plan.md).
+> **Stand van zaken:** stap 1 t/m 4 werken: invoer, analyse, factcheck en nakijken. Daarna komen script, stem, Walt en de videotemplate. Zie [`docs/plan.md`](docs/plan.md).
 
 ---
 
@@ -80,7 +80,40 @@ Open daarna **http://localhost:4321** in je browser. Stoppen doe je met `Ctrl+C`
    - Claude laten beschrijven wat er te zien en te horen is, alle tekst in beeld uitlezen, en inschatten of de beelden AI-gegenereerd of bewerkt zijn. Dat laatste is altijd een inschatting, nooit een zeker oordeel.
 
    Klik op een tijd (bijvoorbeeld `00:12.4`) om naar dat moment in de video te springen. Alles wordt ook bewaard in de job-map: `transcript.txt`, `frames/`, `analysis.json` en het leesbare `analysis.md`. De kosten staan in `job.json`.
-5. *(volgt)* Factcheck → nakijken en goedkeuren → script en stem → video.
+5. **Factcheck starten** (stap 3). Dit duurt een paar minuten en kost ongeveer $0,50-2. De studio doet dan het volgende:
+   - de 1-3 belangrijkste controleerbare beweringen kiezen (meningen, grappen en voorspellingen worden overgeslagen, met de reden erbij);
+   - per bewering online zoeken, de belangrijkste bronnen openen en lezen, en een onderzoeksverslag schrijven;
+   - een oordeel geven: **Klopt / Mist context / Misleidend / Onjuist / Nog onbekend**, met uitleg, betrouwbaarheid en 2-4 bronnen.
+
+   **Ingebouwde veiligheidsregels** (in de code, niet alleen in de instructies aan Claude):
+   - een bron telt alleen als de link echt in de zoekresultaten stond, zodat een verzonnen link wordt verwijderd;
+   - social media en forums tellen nooit als bron;
+   - minder dan 2 bruikbare bronnen, of recent nieuws met lage betrouwbaarheid, wordt automatisch **Nog onbekend**.
+
+   Wat er automatisch is veranderd, zie je in een geel blok bij de bewering.
+6. **Nakijken en goedkeuren** (stap 4, verplicht). Pas aan wat nodig is: bewering, oordeel, uitleg, bronnen, de tekst voor de balk bovenin de video, en het fragment (begin en eind in seconden). Klik dan per bewering op **Goedkeuren**.
+   - Pas je na goedkeuring nog iets aan, dan vervalt de goedkeuring.
+   - Zolang niet alles is goedgekeurd, staat er 🔒 en kan er geen video gemaakt worden.
+   - Alles staat ook in `factcheck.md` (leesbaar) en `factcheck.json`.
+7. *(volgt)* Script en stem → Walt → video.
+
+### Overzicht onderwerpen en kanten
+
+Klik links op **Overzicht onderwerpen en kanten**. Daar zie je welke onderwerpen en welke politieke lading we tot nu toe gecheckt hebben, zodat we alle kanten even kritisch bekijken.
+
+### Testset: hoe goed is de factcheck?
+
+In `eval/claims.json` staan 10 bekende virale beweringen waarvan het juiste oordeel vaststaat: waar, onwaar, misleidend, mist context en nog onbekend. Je draait ze zo:
+
+```bash
+npm run eval
+```
+
+Je ziet per bewering of de studio het goed had, en een score (bijvoorbeeld "9 van 10 goed"). Het verslag komt in `eval/results-<datum>.md`. Dit kost ongeveer $5-10. Eén bewering testen kan ook:
+
+```bash
+npm run eval -- --only=great-wall
+```
 
 ## Waar staat wat
 

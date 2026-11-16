@@ -25,8 +25,8 @@ Afgesproken met de eigenaar (16 november 2026). De oorspronkelijke opdracht staa
 
 1. ✅ Invoer: link of upload, job-map, broninformatie
 2. ✅ Analyse: transcript, beelden plus tekst in beeld, beschrijving en een inschatting of de beelden AI/bewerkt zijn
-3. Factcheck: `factcheck.json` en `factcheck.md`, plus een testset van 10 claims
-4. Nakijkpagina: aanpassen en goedkeuren (verplicht)
+3. ✅ Factcheck: `factcheck.json` en `factcheck.md`, plus een testset van 10 claims
+4. ✅ Nakijkpagina: aanpassen en goedkeuren (verplicht)
 5. Script en stem
 6. Bibliotheek met Walt-clips
 7. Videotemplate, `final.mp4`, `description.txt`, kostenlog, eerste testvideo

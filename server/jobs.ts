@@ -61,6 +61,7 @@ export interface Job {
   video: { file: string; durationSec: number; width?: number; height?: number; hasAudio: boolean } | null;
   log: LogEntry[];
   analysis?: AnalysisInfo;
+  factcheck?: AnalysisInfo; // same shape: state of step 3
   costs?: CostEntry[];
 }
 

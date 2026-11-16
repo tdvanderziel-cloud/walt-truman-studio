@@ -1,3 +1,5 @@
+import { renderCoverage, renderFactcheck, start as startFactcheck } from "./factcheck.js";
+
 // Studio front-end. Plain JavaScript, no build step.
 
 const STATUS = {
@@ -168,8 +170,9 @@ function renderJob(job, full) {
   );
 
   renderAnalysis(root, job);
+  renderFactcheck(root, job, helpers());
 
-  const busy = (j) => j.status === "fetching" || j.analysis?.state === "running";
+  const busy = (j) => j.status === "fetching" || j.analysis?.state === "running" || j.factcheck?.state === "running";
   clearTimeout(pollTimer);
   if (busy(job)) {
     pollTimer = setTimeout(async () => {
@@ -381,6 +384,7 @@ function wireJob(root, id) {
   });
 
   $('[data-action="analyze"]', root).addEventListener("click", () => doAnalyze(root, id));
+  $('[data-action="factcheck"]', root).addEventListener("click", () => startFactcheck(root, id, helpers()));
 
   $('[data-action="retry"]', root).addEventListener("click", async () => {
     await api(`/api/jobs/${enc}/retry-download`, { method: "POST" });
@@ -388,6 +392,18 @@ function wireJob(root, id) {
     renderJob({ ...job, status: "fetching", error: null }, false);
   });
 }
+
+function helpers() {
+  return { $, el, api, timeLink, renderJob, fmtT };
+}
+
+$("#show-coverage").addEventListener("click", async () => {
+  currentId = null;
+  clearTimeout(pollTimer);
+  history.replaceState(null, "", "#overzicht");
+  await renderCoverage($("#detail"), helpers());
+  refreshList();
+});
 
 refreshList();
 if (currentId) openJob(currentId).catch(() => (currentId = null));

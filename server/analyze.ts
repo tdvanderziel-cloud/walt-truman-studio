@@ -215,9 +215,15 @@ export function analysisToMarkdown(job: Job, a: Analysis, segments: Segment[], f
 /** After a crash/restart, a job can be stuck on "running": mark it failed. */
 export async function resetStaleAnalyses(jobs: Job[]): Promise<void> {
   for (const j of jobs) {
+    const msg = "Onderbroken (studio werd gestopt). Start opnieuw.";
     if (j.analysis?.state === "running" && !running.has(j.id)) {
       await updateJob(j.id, (x) => {
-        x.analysis = { ...x.analysis!, state: "failed", error: "Onderbroken (studio werd gestopt). Start de analyse opnieuw." };
+        x.analysis = { ...x.analysis!, state: "failed", error: msg };
+      });
+    }
+    if (j.factcheck?.state === "running") {
+      await updateJob(j.id, (x) => {
+        x.factcheck = { ...x.factcheck!, state: "failed", error: msg };
       });
     }
   }

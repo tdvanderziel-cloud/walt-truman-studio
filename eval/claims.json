@@ -1,0 +1,15 @@
+{
+  "_note": "Testset: 10 well-known viral claims with a settled verdict. 'expected' is the correct verdict; 'alsoOk' lists verdicts we also accept as correct. Run with: npm run eval",
+  "claims": [
+    { "id": "great-wall", "claimNl": "De Chinese Muur is het enige bouwwerk dat je met het blote oog vanuit de ruimte kunt zien.", "quote": "The Great Wall of China is the only man-made structure visible from space with the naked eye.", "expected": "Onjuist", "alsoOk": [] },
+    { "id": "brain-10", "claimNl": "Mensen gebruiken maar 10 procent van hun hersenen.", "quote": "We only use 10% of our brains.", "expected": "Onjuist", "alsoOk": [] },
+    { "id": "mmr-autism", "claimNl": "Het BMR-vaccin (mazelen, bof, rodehond) veroorzaakt autisme.", "quote": "The MMR vaccine causes autism.", "expected": "Onjuist", "alsoOk": [] },
+    { "id": "eiffel-summer", "claimNl": "De Eiffeltoren wordt in de zomer een stukje hoger door de warmte.", "quote": "The Eiffel Tower grows taller in summer.", "expected": "Klopt", "alsoOk": [] },
+    { "id": "nl-agri-export", "claimNl": "Nederland is, gemeten in geld, de op één na grootste exporteur van landbouwproducten ter wereld.", "quote": "The Netherlands is the second-largest agricultural exporter in the world.", "expected": "Klopt", "alsoOk": ["Mist context"] },
+    { "id": "boiling-altitude", "claimNl": "Op grote hoogte kookt water bij een lagere temperatuur dan 100 graden.", "quote": "Water boils at a lower temperature at high altitude.", "expected": "Klopt", "alsoOk": [] },
+    { "id": "ev-co2", "claimNl": "Elektrische auto's stoten over hun hele levensduur meer CO2 uit dan benzineauto's, omdat de productie van de accu zoveel uitstoot veroorzaakt.", "quote": "Electric cars are worse for the climate than petrol cars because of the battery.", "expected": "Misleidend", "alsoOk": ["Onjuist"] },
+    { "id": "thimerosal", "claimNl": "Vaccins bevatten kwik dat kinderen vergiftigt.", "quote": "Vaccines contain mercury that poisons children.", "expected": "Misleidend", "alsoOk": ["Onjuist"] },
+    { "id": "banana-radioactive", "claimNl": "Bananen zijn radioactief.", "quote": "Bananas are radioactive.", "expected": "Mist context", "alsoOk": ["Klopt"] },
+    { "id": "europa-life", "claimNl": "Er leeft buitenaards leven in de oceaan onder het ijs van Jupitermaan Europa.", "quote": "There is alien life in the ocean of Jupiter's moon Europa.", "expected": "Nog onbekend", "alsoOk": [] }
+  ]
+}

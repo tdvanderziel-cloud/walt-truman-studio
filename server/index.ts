@@ -11,6 +11,7 @@ import fs from "node:fs/promises";
 import { isAnalysisRunning, resetStaleAnalyses, startAnalysis } from "./analyze.ts";
 import { applySourceEdits, createJob, isValidJobId, jobDir, jobFile, listJobs, loadJob, missingSourceFields, ROOT_DIR, totalCostUsd, updateJob, addLog } from "./jobs.ts";
 import { isValidHttpUrl } from "./source.ts";
+import { deleteClaim, editClaim, isApproved, isFactcheckRunning, loadFactcheck, readyForVideo, startFactcheck, VERDICT_EN } from "./factcheck.ts";
 
 const PORT = Number(process.env.PORT || 4321);
 const app = express();
@@ -115,6 +116,44 @@ app.get("/api/jobs/:id/frames/:name", h(async (req, res) => {
   const name = String(req.params.name);
   if (!/^f-\d{3}\.jpg$/.test(name)) throw Object.assign(new Error("Niet gevonden."), { status: 404 });
   res.sendFile(path.join(jobDir(requireJobId(req)), "frames", name));
+}));
+
+// Step 3: fact-check (background) and step 4: review edits.
+app.post("/api/jobs/:id/factcheck", h(async (req, res) => {
+  res.json(jobView(await startFactcheck(requireJobId(req))));
+}));
+
+app.get("/api/jobs/:id/factcheck", h(async (req, res) => {
+  const id = requireJobId(req);
+  const file = await loadFactcheck(id);
+  res.json({
+    factcheck: file && { ...file, claims: file.claims.map((c) => ({ ...c, approved: isApproved(c), verdictEn: VERDICT_EN[c.verdict] })) },
+    readyForVideo: readyForVideo(file),
+    running: isFactcheckRunning(id),
+  });
+}));
+
+app.put("/api/jobs/:id/claims/:claimId", h(async (req, res) => {
+  const id = requireJobId(req);
+  await editClaim(id, { ...req.body, id: String(req.params.claimId) });
+  res.json({ ok: true });
+}));
+
+app.delete("/api/jobs/:id/claims/:claimId", h(async (req, res) => {
+  await deleteClaim(requireJobId(req), String(req.params.claimId));
+  res.json({ ok: true });
+}));
+
+// Overview of checked topics and political sides, across all jobs.
+app.get("/api/coverage", h(async (_req, res) => {
+  const rows = [];
+  for (const job of await listJobs()) {
+    const f = await loadFactcheck(job.id);
+    for (const c of f?.claims ?? []) {
+      rows.push({ jobId: job.id, date: job.createdAt.slice(0, 10), account: job.source.account, claim: c.claimNl, topic: c.topic, lean: c.politicalLean, verdict: c.verdict, approved: isApproved(c) });
+    }
+  }
+  res.json(rows);
 }));
 
 // Stream the original video for the preview player (supports seeking).

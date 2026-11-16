@@ -121,3 +121,28 @@ button.time {
 .frames figure { margin: 0; cursor: pointer; }
 .frames img { width: 100%; border-radius: 6px; display: block; background: #000; }
 .frames figcaption { font-size: .75rem; color: var(--muted); text-align: center; }
+
+/* ---------- fact-check & review ---------- */
+.verdict { display: inline-block; font-size: .78rem; font-weight: 700; padding: 3px 10px; border-radius: 4px; letter-spacing: .02em; color: #fff; }
+.v-true { background: #2e9e5b; }
+.v-context { background: #f2c230; color: #2b2300; }
+.v-misleading { background: #f28c28; color: #2b1600; }
+.v-false { background: #d93b3b; }
+.v-unproven { background: #8a8f98; }
+.claim-card { border: 1px solid var(--line); border-left: 5px solid var(--warn); border-radius: var(--radius); padding: 12px 14px; margin: 14px 0; background: #fcfbf9; }
+.claim-card.approved { border-left-color: var(--ok); }
+.claim-head { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; }
+.claim-card blockquote { margin: 8px 0; padding: 6px 10px; border-left: 3px solid var(--line); color: var(--muted); font-style: italic; }
+.claim-card select, .claim-card input { width: 100%; padding: 7px 8px; border: 1px solid var(--line); border-radius: 6px; font: inherit; background: #fff; }
+.claim-card h4 { margin: 14px 0 4px; font-size: .9rem; }
+.grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+@media (max-width: 900px) { .grid3 { grid-template-columns: 1fr; } }
+.source-row { border: 1px solid var(--line); border-radius: 8px; padding: 6px 10px 10px; margin: 8px 0; background: #fff; }
+.source-grid { display: grid; grid-template-columns: 2fr 1.3fr 1fr 1.3fr 1.2fr; gap: 8px; }
+@media (max-width: 1000px) { .source-grid { grid-template-columns: 1fr 1fr; } }
+.source-row label { font-size: .75rem; margin: .4rem 0 .15rem; }
+pre.notes { white-space: pre-wrap; font: .82rem/1.45 ui-monospace, Menlo, Consolas, monospace; background: #f4f2ee; padding: 10px; border-radius: 6px; max-height: 400px; overflow: auto; }
+.notice.lock { background: #f6e5e3; }
+.link-btn.danger { color: var(--bad); }
+table.coverage { width: 100%; border-collapse: collapse; font-size: .85rem; }
+table.coverage th, table.coverage td { text-align: left; padding: 6px; border-bottom: 1px solid var(--line); vertical-align: top; }
