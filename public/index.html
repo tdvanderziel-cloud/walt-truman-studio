@@ -1,0 +1,137 @@
+<!doctype html>
+<html lang="nl">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Walt Truman Studio</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="pin" aria-hidden="true">✓</span>
+      <div>
+        <h1>Walt Truman Factcheck Studio</h1>
+        <p class="sub">We checken de claim, niet de persoon.</p>
+      </div>
+    </div>
+  </header>
+
+  <main class="layout">
+    <aside class="sidebar">
+      <section class="card">
+        <h2>Nieuwe factcheck</h2>
+        <form id="new-job">
+          <label for="url">Link naar de video</label>
+          <input id="url" name="url" type="url" required placeholder="https://www.tiktok.com/@account/video/…" autocomplete="off">
+          <label class="check">
+            <input type="checkbox" id="skip-download">
+            Niet ophalen, ik upload het bestand zelf
+          </label>
+          <button type="submit" class="primary">Start</button>
+          <p id="new-job-error" class="error" hidden></p>
+        </form>
+      </section>
+
+      <section class="card">
+        <h2>Jobs</h2>
+        <ul id="job-list" class="job-list"><li class="muted">Nog geen jobs.</li></ul>
+      </section>
+    </aside>
+
+    <section id="detail" class="detail">
+      <div class="card empty-state">
+        <h2>Zo werkt het</h2>
+        <ol class="steps">
+          <li><strong>Link plakken.</strong> De studio probeert de video op te halen. Lukt dat niet, dan upload je hem zelf.</li>
+          <li><strong>Bron controleren.</strong> Account en datum van de post moeten kloppen. Die komen altijd in beeld.</li>
+          <li class="later">Analyse en factcheck <span class="tag">stap 2-3</span></li>
+          <li class="later">Nakijken en goedkeuren <span class="tag">stap 4</span></li>
+          <li class="later">Video maken <span class="tag">later</span></li>
+        </ol>
+        <details class="rules">
+          <summary>Wat mag wel en niet met andermans video?</summary>
+          <ul>
+            <li><strong>Downloaden:</strong> TikTok, Instagram en X verbieden automatisch downloaden in hun gebruiksvoorwaarden; YouTube ook, behalve via hun eigen knoppen. yt-dlp werkt technisch vaak wel, maar je overtreedt daarmee de voorwaarden van het platform. De veiligere route: de downloadknop van het platform zelf (als de maker die aan heeft staan), of een schermopname, en dan hier uploaden.</li>
+            <li><strong>Gebruiken in jullie video:</strong> in Nederland mag je een kort stuk citeren voor kritiek of commentaar (citaatrecht, art. 15a Auteurswet), als je alleen gebruikt wat nodig is, de maker noemt, en jullie commentaar de hoofdzaak is. De studio is daarop gebouwd.</li>
+            <li><strong>Niet doen:</strong> de hele video overnemen, het fragment langer maken dan nodig, of het logo/watermerk van de maker weghalen.</li>
+            <li>Dit is geen juridisch advies. Twijfel je, laat het checken.</li>
+          </ul>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <template id="job-template">
+    <div class="card">
+      <div class="detail-head">
+        <div>
+          <h2 data-field="id"></h2>
+          <p class="muted" data-field="created"></p>
+        </div>
+        <span class="status" data-field="status"></span>
+      </div>
+
+      <div class="notice" data-part="fetching" hidden>
+        <span class="spinner" aria-hidden="true"></span> Video wordt opgehaald… dit kan tot een minuut duren.
+      </div>
+
+      <div class="notice warn" data-part="error" hidden></div>
+
+      <div class="upload" data-part="upload" hidden>
+        <h3>Upload het videobestand</h3>
+        <p class="muted">mp4, mov, webm of mkv. Bijvoorbeeld via de downloadknop van het platform of een schermopname.</p>
+        <form data-form="upload">
+          <input type="file" name="video" accept="video/mp4,video/quicktime,video/webm,video/x-matroska,.mkv,.m4v" required>
+          <div class="row">
+            <button type="submit" class="primary">Uploaden</button>
+            <button type="button" data-action="retry">Toch opnieuw ophalen</button>
+          </div>
+        </form>
+        <p class="muted" data-part="upload-progress" hidden>Bezig met uploaden…</p>
+      </div>
+
+      <div class="grid">
+        <div>
+          <h3>Bron <span class="muted small">(komt altijd in beeld)</span></h3>
+          <form data-form="source" class="source-form">
+            <label>Link
+              <a data-field="url" target="_blank" rel="noopener noreferrer"></a>
+            </label>
+            <label>Platform <span data-field="platform"></span></label>
+            <label for="f-account">Account (@naam) <span class="req">verplicht</span></label>
+            <input id="f-account" name="account" placeholder="@account">
+            <label for="f-accountName">Naam bij het account</label>
+            <input id="f-accountName" name="accountName" placeholder="optioneel">
+            <label for="f-postDate">Datum van de post <span class="req">verplicht</span></label>
+            <input id="f-postDate" name="postDate" type="date">
+            <label for="f-title">Titel / bijschrift van de post</label>
+            <textarea id="f-title" name="title" rows="3" placeholder="optioneel"></textarea>
+            <div class="row">
+              <button type="submit">Bron opslaan</button>
+              <span class="saved muted" data-part="saved" hidden>Opgeslagen ✓</span>
+            </div>
+            <p class="error" data-part="source-error" hidden></p>
+          </form>
+        </div>
+        <div>
+          <h3>Video</h3>
+          <div data-part="video-box" class="video-box">
+            <p class="muted">Nog geen video.</p>
+          </div>
+          <p class="muted small" data-field="video-meta"></p>
+        </div>
+      </div>
+
+      <div class="next" data-part="next"></div>
+
+      <details class="log">
+        <summary>Logboek</summary>
+        <ul data-field="log"></ul>
+      </details>
+    </div>
+  </template>
+
+  <script src="app.js" type="module"></script>
+</body>
+</html>

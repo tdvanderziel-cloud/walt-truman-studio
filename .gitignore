@@ -1,0 +1,16 @@
+# Secrets - never commit
+.env
+
+# Dependencies
+node_modules/
+
+# Job folders contain other people's videos and large files.
+# They stay on the laptop where they were made (see README).
+jobs/*
+!jobs/.gitkeep
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+*.log
