@@ -45,7 +45,8 @@
         <ol class="steps">
           <li><strong>Link plakken.</strong> De studio probeert de video op te halen. Lukt dat niet, dan upload je hem zelf.</li>
           <li><strong>Bron controleren.</strong> Account en datum van de post moeten kloppen. Die komen altijd in beeld.</li>
-          <li class="later">Analyse en factcheck <span class="tag">stap 2-3</span></li>
+          <li><strong>Analyse.</strong> Transcript, beelden en tekst in beeld, en een inschatting of de beelden AI-gegenereerd of bewerkt zijn.</li>
+          <li class="later">Factcheck <span class="tag">stap 3</span></li>
           <li class="later">Nakijken en goedkeuren <span class="tag">stap 4</span></li>
           <li class="later">Video maken <span class="tag">later</span></li>
         </ol>
@@ -124,6 +125,22 @@
       </div>
 
       <div class="next" data-part="next"></div>
+
+      <section class="analysis" data-part="analysis" hidden>
+        <div class="section-head">
+          <h3>Stap 2 · Analyse</h3>
+          <span class="muted small" data-field="cost"></span>
+        </div>
+        <div data-part="analysis-start" hidden>
+          <p class="muted">De studio maakt een transcript met tijden, haalt beelden uit de video (elke paar seconden en bij elke scènewissel), en laat Claude beschrijven wat er te zien is. Kosten: ongeveer $0,20–1 per video.</p>
+          <button type="button" class="primary" data-action="analyze">Analyse starten</button>
+        </div>
+        <div class="notice" data-part="analysis-running" hidden>
+          <span class="spinner" aria-hidden="true"></span> <span data-field="analysis-step"></span>
+        </div>
+        <div class="notice warn" data-part="analysis-error" hidden></div>
+        <div data-part="analysis-result"></div>
+      </section>
 
       <details class="log">
         <summary>Logboek</summary>

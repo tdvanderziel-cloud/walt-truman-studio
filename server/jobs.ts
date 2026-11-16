@@ -33,6 +33,24 @@ export interface LogEntry {
   durationMs?: number;
 }
 
+export type AnalysisState = "idle" | "running" | "done" | "failed";
+
+export interface AnalysisInfo {
+  state: AnalysisState;
+  step: string | null; // current sub-step while running
+  error: string | null;
+  startedAt: string | null;
+  finishedAt: string | null;
+}
+
+export interface CostEntry {
+  at: string;
+  step: string; // "analyse", "factcheck", "stem", "video", ...
+  service: string; // "Claude Opus 5.5", "ElevenLabs Scribe", ...
+  detail: string; // e.g. "12.345 in / 2.100 uit tokens"
+  usd: number;
+}
+
 export interface Job {
   id: string;
   createdAt: string;
@@ -42,6 +60,8 @@ export interface Job {
   source: SourceInfo;
   video: { file: string; durationSec: number; width?: number; height?: number; hasAudio: boolean } | null;
   log: LogEntry[];
+  analysis?: AnalysisInfo;
+  costs?: CostEntry[];
 }
 
 const JOB_ID_RE = /^\d{4}-\d{2}-\d{2}-[a-z0-9-]{1,60}$/;
@@ -167,6 +187,14 @@ export async function listJobs(): Promise<Job[]> {
 
 export function addLog(job: Job, step: string, message: string, durationMs?: number): void {
   job.log.push({ at: new Date().toISOString(), step, message, ...(durationMs != null ? { durationMs } : {}) });
+}
+
+export function addCost(job: Job, entry: Omit<CostEntry, "at">): void {
+  (job.costs ??= []).push({ at: new Date().toISOString(), ...entry });
+}
+
+export function totalCostUsd(job: Job): number {
+  return Math.round((job.costs ?? []).reduce((sum, c) => sum + c.usd, 0) * 10000) / 10000;
 }
 
 /** Apply user edits to the source fields (only known fields, trimmed). */

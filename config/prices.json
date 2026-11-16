@@ -1,0 +1,9 @@
+{
+  "_note": "Prices in USD, used to log what each video costs. Check now and then against the providers' pricing pages and update here.",
+  "claude": {
+    "claude-opus-5-5": { "inputPerMTok": 4, "outputPerMTok": 20, "cacheWritePerMTok": 5, "cacheReadPerMTok": 0.2 }
+  },
+  "webSearchPer1000": 10,
+  "elevenlabsSttPerHour": 0.4,
+  "usdToEur": 0.92
+}

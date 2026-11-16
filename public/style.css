@@ -102,3 +102,22 @@ details.log ul { font-size: .8rem; color: var(--muted); padding-left: 18px; }
   animation: spin .8s linear infinite; flex: none;
 }
 @keyframes spin { to { transform: rotate(360deg); } }
+
+/* ---------- analysis ---------- */
+.s-bad { background: var(--bad); color: #fff; }
+.analysis { border-top: 1px solid var(--line); margin-top: 16px; padding-top: 12px; }
+.section-head { display: flex; justify-content: space-between; align-items: baseline; gap: 12px; }
+.result-block { margin: 14px 0; }
+.result-block h4 { margin: 0 0 .35rem; font-size: .9rem; }
+.result-block p { margin: .3rem 0; }
+.timeline { list-style: none; padding: 0; margin: 0; }
+.timeline li { padding: 3px 0; border-bottom: 1px solid #f0eee9; }
+.transcript { max-height: 360px; overflow: auto; }
+button.time {
+  margin: 0; padding: 1px 6px; font-size: .78rem; font-variant-numeric: tabular-nums;
+  background: #eef0f6; border-color: transparent; color: var(--navy-2);
+}
+.frames { display: grid; grid-template-columns: repeat(auto-fill, minmax(110px, 1fr)); gap: 8px; margin-top: 8px; }
+.frames figure { margin: 0; cursor: pointer; }
+.frames img { width: 100%; border-radius: 6px; display: block; background: #000; }
+.frames figcaption { font-size: .75rem; color: var(--muted); text-align: center; }

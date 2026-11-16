@@ -2,7 +2,7 @@
 
 Een eigen studio in de browser. Je plakt een link naar een social-media-video, de studio factcheckt de video, jij kijkt alles na, en daarna maakt de studio een korte video waarin de pop **Walt Truman** de factcheck presenteert.
 
-> **Stand van zaken:** stap 1 (invoer) werkt. Analyse, factcheck en nakijken komen hierna, daarna pas stem, Walt en de videotemplate. Zie [`docs/plan.md`](docs/plan.md).
+> **Stand van zaken:** stap 1 (invoer) en stap 2 (analyse) werken. Factcheck en nakijken komen hierna, daarna pas stem, Walt en de videotemplate. Zie [`docs/plan.md`](docs/plan.md).
 
 ---
 
@@ -18,6 +18,14 @@ Dit doe je één keer per laptop. Je hebt vier programma's nodig.
 | **yt-dlp** *(optioneel)* | Video automatisch ophalen via de link | `brew install yt-dlp` | `winget install yt-dlp.yt-dlp` |
 
 Op de Mac heb je voor `brew` eerst [Homebrew](https://brew.sh) nodig. Op Windows typ je deze commando's in **PowerShell**. Sluit het venster daarna en open het opnieuw, zodat de nieuwe programma's gevonden worden.
+
+> **Windows: foutmelding "running scripts is disabled on this system"?** Windows blokkeert standaard scripts in PowerShell, en `npm` is zo'n script. Voer dit één keer uit in PowerShell en typ `J` (of `Y`) als het gevraagd wordt:
+>
+> ```powershell
+> Set-ExecutionPolicy -Scope CurrentUser RemoteSigned
+> ```
+>
+> Dit staat scripts toe die op je eigen computer staan, en alleen voor jouw gebruikersaccount. Sluit PowerShell en open het opnieuw.
 
 Haal daarna de code op en installeer de onderdelen:
 
@@ -40,7 +48,7 @@ API-sleutels zijn je wachtwoorden voor de betaalde diensten. Ze staan **alleen**
 1. Kopieer `.env.example` naar een nieuw bestand `.env` (Mac: `cp .env.example .env`, Windows: `copy .env.example .env`).
 2. Open `.env` in een teksteditor en vul in:
    - `ANTHROPIC_API_KEY`: aanmaken op [platform.claude.com](https://platform.claude.com) → API keys.
-   - `ELEVENLABS_API_KEY`: op [elevenlabs.io](https://elevenlabs.io) → je profiel → API keys.
+   - `ELEVENLABS_API_KEY`: op [elevenlabs.io](https://elevenlabs.io) → **Developers** → **API keys**. Geef de sleutel deze toestemmingen: **Speech to Text**, **Text to Speech** en **Voices (lezen)**. Zonder die toestemmingen weigert ElevenLabs de opdracht.
 3. Controleer of alles klaar is:
 
 ```bash
@@ -66,7 +74,13 @@ Open daarna **http://localhost:4321** in je browser. Stoppen doe je met `Ctrl+C`
    - Wil je niet automatisch downloaden, vink dan *"Niet ophalen, ik upload het bestand zelf"* aan.
 2. **Bron controleren.** Account (@naam) en datum van de post zijn verplicht, want die komen altijd in beeld ("Original: @account · datum"). Vul aan wat ontbreekt en klik *Bron opslaan*.
 3. Staat er **"Klaar voor analyse"**, dan is stap 1 klaar.
-4. *(volgt)* Analyse → factcheck → nakijken en goedkeuren → script en stem → video.
+4. **Analyse starten** (stap 2). Dit duurt meestal 1-3 minuten en kost ongeveer $0,20-1. De studio doet dan het volgende:
+   - het geluid uit de video halen en uitschrijven met tijden (ElevenLabs Scribe);
+   - elke paar seconden en bij elke scènewissel een beeld uit de video halen (ffmpeg);
+   - Claude laten beschrijven wat er te zien en te horen is, alle tekst in beeld uitlezen, en inschatten of de beelden AI-gegenereerd of bewerkt zijn. Dat laatste is altijd een inschatting, nooit een zeker oordeel.
+
+   Klik op een tijd (bijvoorbeeld `00:12.4`) om naar dat moment in de video te springen. Alles wordt ook bewaard in de job-map: `transcript.txt`, `frames/`, `analysis.json` en het leesbare `analysis.md`. De kosten staan in `job.json`.
+5. *(volgt)* Factcheck → nakijken en goedkeuren → script en stem → video.
 
 ## Waar staat wat
 

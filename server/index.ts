@@ -7,7 +7,9 @@ import multer from "multer";
 import os from "node:os";
 import path from "node:path";
 import { attachUpload, fetchWithYtdlp } from "./fetch-video.ts";
-import { applySourceEdits, createJob, isValidJobId, jobFile, listJobs, loadJob, missingSourceFields, ROOT_DIR, updateJob, addLog } from "./jobs.ts";
+import fs from "node:fs/promises";
+import { isAnalysisRunning, resetStaleAnalyses, startAnalysis } from "./analyze.ts";
+import { applySourceEdits, createJob, isValidJobId, jobDir, jobFile, listJobs, loadJob, missingSourceFields, ROOT_DIR, totalCostUsd, updateJob, addLog } from "./jobs.ts";
 import { isValidHttpUrl } from "./source.ts";
 
 const PORT = Number(process.env.PORT || 4321);
@@ -24,7 +26,7 @@ const h =
     fn(req, res).catch(next);
 
 function jobView(job: Awaited<ReturnType<typeof loadJob>>) {
-  return { ...job, missingSource: missingSourceFields(job.source) };
+  return { ...job, missingSource: missingSourceFields(job.source), totalCostUsd: totalCostUsd(job) };
 }
 
 function requireJobId(req: Request): string {
@@ -84,6 +86,37 @@ app.patch("/api/jobs/:id/source", h(async (req, res) => {
   res.json(jobView(job));
 }));
 
+// Step 2: start the analysis (runs in the background; the page polls the job).
+app.post("/api/jobs/:id/analyze", h(async (req, res) => {
+  const job = await startAnalysis(requireJobId(req));
+  res.json(jobView(job));
+}));
+
+// Everything the page needs to show the analysis result.
+app.get("/api/jobs/:id/analysis", h(async (req, res) => {
+  const id = requireJobId(req);
+  const read = async (name: string) => {
+    try {
+      return JSON.parse(await fs.readFile(jobFile(id, name), "utf8"));
+    } catch {
+      return null;
+    }
+  };
+  const transcript = await read("transcript.json");
+  res.json({
+    analysis: await read("analysis.json"),
+    frames: (await read("frames.json")) ?? [],
+    segments: transcript?.segments ?? [],
+    running: isAnalysisRunning(id),
+  });
+}));
+
+app.get("/api/jobs/:id/frames/:name", h(async (req, res) => {
+  const name = String(req.params.name);
+  if (!/^f-\d{3}\.jpg$/.test(name)) throw Object.assign(new Error("Niet gevonden."), { status: 404 });
+  res.sendFile(path.join(jobDir(requireJobId(req)), "frames", name));
+}));
+
 // Stream the original video for the preview player (supports seeking).
 app.get("/api/jobs/:id/video", h(async (req, res) => {
   const job = await loadJob(requireJobId(req));
@@ -98,6 +131,9 @@ app.use((err: Error & { status?: number; code?: string }, _req: Request, res: Re
   const status = err.status ?? (err.code === "ENOENT" ? 404 : 400);
   res.status(status).json({ error: status === 404 ? "Niet gevonden." : err.message });
 });
+
+// A studio restart interrupts running analyses; mark them so they can be restarted.
+await resetStaleAnalyses(await listJobs());
 
 app.listen(PORT, "127.0.0.1", () => {
   console.log(`\n  Walt Truman Factcheck Studio draait op  http://localhost:${PORT}\n  Stoppen: Ctrl+C\n`);
