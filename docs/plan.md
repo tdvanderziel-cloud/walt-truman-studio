@@ -46,6 +46,7 @@ Eenmalig: ~€20-60 voor de bibliotheek met Walt-clips.
 
 ## Nog open
 
-- `brand/walt-truman-character-bible.md` ontbreekt nog (nodig voor script en stem).
+- `brand/walt-truman-character-bible.md`: alleen het stemdeel staat erin; persoonlijkheid en vaste zinnen nog aanvullen.
+- `outro-tag-us`-clip opnieuw maken met de nieuwe stem (audio staat al klaar in `brand/voice/`).
 - Accountnaam van het merk (@…), platforms om op te posten, aantal video's per week, budget.
 - Betere referentiebeelden op groen (`brand/walt-reference-front.png`, `brand/walt-reference-34.png`); tot die er zijn gebruiken we de `-interim` versies.

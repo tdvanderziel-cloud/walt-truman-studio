@@ -20,7 +20,7 @@ Lees deze bestanden eerst helemaal door. Ze zijn leidend voor alles wat je bouwt
 - `brand/character-sheet.jpg`: het officiële karakterblad van Walt Truman. Dit is de wet voor zijn uiterlijk.
 - `brand/walt-truman-character-bible.md`: uiterlijk, persoonlijkheid, stem en vaste zinnen van Walt.
 - `brand/video-template.md`: de opmaak van de video, de oordelen en hun kleuren.
-- `brand/voice-settings.json`: de ElevenLabs-stem van Walt (voice_id `CJ8hAz66bFre2NXGRLvz`).
+- `brand/voice-settings.json`: de ElevenLabs-stem van Walt (voice_id `p1FoEc0RLwqUICxhdqKb`).
 - `brand/walt-reference-front-interim.png` en `brand/walt-reference-34-interim.png`: tijdelijke referentiebeelden, uitgeknipt uit het karakterblad. Ik vervang ze door betere versies op groene achtergrond (`walt-reference-front.png`, `walt-reference-34.png`). Gebruik de nieuwe zodra ze er zijn.
 
 ## De stappen van de studio

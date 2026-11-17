@@ -10,7 +10,8 @@ Vaste bewegingsclips van Walt, klaar om over de originele video te leggen.
 
 ## Zo maak je een nieuwe clip
 
-1. Maak de clip in Higgsfield (bijv. Intone met een Walt-beeld uit `../expressions/` en een zin uit `../../voice/`).
+1. Maak de clip in Higgsfield (lipsync met een Walt-beeld uit `../expressions/` en een audiobestand uit `../../voice/`).
+   **Regel:** de stem komt altijd van ElevenLabs (voice_id `p1FoEc0RLwqUICxhdqKb`, via `server/voice.ts`). Higgsfield krijgt alleen dat audiobestand voor de lipsync en maakt nooit zelf een stem (geen tekst-naar-spraak, geen ingebouwde audio aan).
 2. Laat Higgsfield de achtergrond verwijderen ("remove background", video). Je krijgt Walt op zwart.
 3. Maak hem transparant:
 

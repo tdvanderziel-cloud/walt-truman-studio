@@ -1,15 +1,15 @@
 {
   "provider": "ElevenLabs",
-  "voice_name": "Walt Truman",
-  "voice_id": "CJ8hAz66bFre2NXGRLvz",
+  "voice_name": "Walt Truman v2",
+  "voice_id": "p1FoEc0RLwqUICxhdqKb",
   "language": "en",
-  "description": "Warm, trustworthy American baritone around 40-45, slight rasp, modern and curious, with an eccentric, slightly zany delivery and dry humor. Unhurried pace with short pauses before the verdict.",
+  "description": "Natural, quirky American character voice around 45, warm and slightly nasal, trustworthy with dry comic timing. Clear dramatic pause before the verdict. Designed with eleven_ttv_v3; generate with eleven_v3.",
   "settings": {
-    "note": "Vastgelegd bij de eerste testvideo (16 nov 2026). Gebruik altijd exact deze waarden; wijzig alleen bewust en neem dan de vaste zinnen opnieuw op (npm run voice:phrases).",
-    "model_id": "eleven_multilingual_v2",
-    "stability": 0.45,
-    "similarity_boost": 0.8,
-    "style": 0.3,
+    "note": "Vastgelegd bij de testvideo met de nieuwe stem (17 nov 2026). Gebruik altijd exact deze waarden; wijzig alleen bewust en neem dan de vaste zinnen opnieuw op. eleven_v3 kent voor stability alleen 0.0 (Creative), 0.5 (Natural) en 1.0 (Robust).",
+    "model_id": "eleven_v3",
+    "stability": 0.5,
+    "similarity_boost": 0.75,
+    "style": 0,
     "speed": 1.0,
     "use_speaker_boost": true,
     "output_format": "mp3_44100_128"

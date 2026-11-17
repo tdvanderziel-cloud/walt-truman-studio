@@ -32,7 +32,19 @@ export interface Speech {
 }
 
 const readJson = async <T>(rel: string) => JSON.parse(await fs.readFile(path.join(ROOT_DIR, rel), "utf8")) as T;
-export const loadVoice = () => readJson<VoiceSettings>("brand/voice-settings.json");
+// Walt's one and only voice. Every line Walt speaks is generated here, through
+// the ElevenLabs API, with this voice_id. Higgsfield only ever receives the
+// finished audio file for lipsync; it must never generate a voice itself.
+export const WALT_VOICE_ID = "p1FoEc0RLwqUICxhdqKb";
+export const WALT_VOICE_MODEL = "eleven_v3";
+
+export async function loadVoice(): Promise<VoiceSettings> {
+  const v = await readJson<VoiceSettings & { provider?: string }>("brand/voice-settings.json");
+  if (v.provider !== "ElevenLabs" || v.voice_id !== WALT_VOICE_ID || v.settings?.model_id !== WALT_VOICE_MODEL) {
+    throw new Error(`brand/voice-settings.json klopt niet: verwacht ElevenLabs, voice_id ${WALT_VOICE_ID} en model ${WALT_VOICE_MODEL}.`);
+  }
+  return v;
+}
 export const loadPronunciation = async () => (await readJson<{ replacements: Record<string, string> }>("brand/pronunciation.json")).replacements;
 
 /** Apply the pronunciation list to the text the voice reads. */
